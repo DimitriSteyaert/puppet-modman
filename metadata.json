@@ -1,14 +1,39 @@
 {
-  "name": "puppet-modman",
-  "version": "0.1.0",
-  "author": "Dimitri Steyaert",
-  "summary": "Thid module installs Modman, the Magento module manager.",
+  "name": "DimitriSteyaert-modman",
+  "version": "1.0.0",
+  "author": "DimitriSteyaert",
+  "summary": "This module installs Modman, the Magento module manager.",
   "license": "Apache-2.0",
   "source": "https://github.com/DimitriSteyaert/puppet-modman",
   "project_page": "https://github.com/DimitriSteyaert/puppet-modman",
   "issues_url": "https://github.com/DimitriSteyaert/puppet-modman/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem":"Debian",
+      "operatingsystemrelease":[
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "10.04",
+        "12.04",
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    }
+   ],
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+
   ]
 }
 

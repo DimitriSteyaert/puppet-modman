@@ -1,41 +1,66 @@
 # == Class: modman
 #
-# Full description of class modman here.
+# This class installs modman, the Magento module manager.
 #
 # === Parameters
 #
-# Document parameters here.
+# All of the variables are optional and should only be changed if you
+# would like to install modman on a location that is different from the default
+# and from a repository from another location.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
+# [*install_dest*]
+#   By default modman is downloaded into the folder /usr/share/modman. If you would
+#   like to download modman into another folder you can edit this parameter.
 #
-# === Variables
+# [*repository*]
+#   modman is downloaded from the repository https://github.com/colinmollenhour/modman
+#   but if you would like to get modman from another repository then you can
+#   pass that repository to this parameter.
 #
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*exec_location*]
+#   The executable is configured in /usr/bin by default, if you would like to
+#   launch modman from another executable path then pass that path to the
+#   exec_location parameter.
 #
 # === Examples
 #
+#  class { 'modman': } # for installation with default parameters.
+#
 #  class { 'modman':
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
+#    install_dest  => '/usr/share/modman',
+#    repository    => 'https://github.com/colinmollenhour/modman',
+#    exec_location => '/usr/bin/',
 #  }
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Dimitri Steyaert <dimitri@steyaert.be>
 #
 # === Copyright
 #
-# Copyright 2015 Your name here, unless otherwise noted.
+# Copyright 2015 Dimitri Steyaert.
 #
-class modman {
-
-
+class modman (
+  $install_dest  = '/usr/share/modman',
+  $repository    = 'https://github.com/colinmollenhour/modman',
+  $exec_location = '/usr/bin/',
+) {
+  exec { 'clone-modman':
+    creates   => $install_dest,
+    command   => "git clone ${repository} ${install_dest}",
+    path      => ['/usr/local/bin', '/usr/bin'],
+    logoutput => true,
+    require   => Package['git'],
+  }
+  package { 'git':
+    ensure => installed,
+  }
+  file { "${exec_location}/modman":
+    ensure  => "${install_dest}/modman",
+    require => Exec['clone-modman'],
+  }
+  file { '/etc/bash_completion.d/modman':
+    ensure  => "${install_dest}/bash_completion",
+    require => Exec['clone-modman'],
+  }
 }
