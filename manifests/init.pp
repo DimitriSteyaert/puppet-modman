@@ -52,8 +52,10 @@ class modman (
     logoutput => true,
     require   => Package['git'],
   }
-  package { 'git':
-    ensure => installed,
+  if ! defined(Package['git']) {
+      package { 'git':
+          ensure => installed,
+      }
   }
   file { "${exec_location}/modman":
     ensure  => "${install_dest}/modman",
