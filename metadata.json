@@ -1,6 +1,6 @@
 {
   "name": "DimitriSteyaert-modman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "DimitriSteyaert",
   "summary": "This module installs Modman, the Magento module manager.",
   "license": "Apache-2.0",
